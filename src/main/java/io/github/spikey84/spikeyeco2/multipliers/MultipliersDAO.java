@@ -13,7 +13,7 @@ public class MultipliersDAO {
         List<Multiplier> multipliers = Lists.newArrayList();
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             connection.setAutoCommit(false);
 
             String query = "SELECT uuid, timeleft, mult FROM active_multipliers;";
@@ -36,7 +36,7 @@ public class MultipliersDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             connection.setAutoCommit(false);
 
             String query = """

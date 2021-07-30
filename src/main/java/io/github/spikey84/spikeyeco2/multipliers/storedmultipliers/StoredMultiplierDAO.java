@@ -42,7 +42,7 @@ public class StoredMultiplierDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             connection.setAutoCommit(false);
 
             String query = """
@@ -78,7 +78,7 @@ public class StoredMultiplierDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             connection.setAutoCommit(false);
 
             String query = """
