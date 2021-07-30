@@ -1,0 +1,187 @@
+targets:
+  zombie:
+    type: kill
+    reward: 0.4
+    others:
+      - husk
+      - zombie_villager
+  skeleton:
+    type: kill
+    reward: 0.4
+    others:
+      - stray
+  creeper:
+    type: kill
+    reward: 0.4
+  witch:
+    type: kill
+    reward: 0.5
+  enderman:
+    type: kill
+    reward: 0.6
+  wither:
+    type: kill
+    reward: 100
+    bypass: true
+  ender_dragon:
+    type: kill
+    reward: 100
+    bypass: true
+  cave_spider:
+    type: kill
+    reward: 0.4
+  blaze:
+    type: kill
+    reward: 0.5
+  wither_skeleton:
+    type: kill
+    reward: 0.7
+  piglin:
+    type: kill
+    reward: 0.4
+  zombified_piglin:
+    type: kill
+    reward: 0.3
+  piglin_brute:
+    type: kill
+    reward: 0.9
+    bypass: true
+  spider:
+    type: kill
+    reward: 0.4
+  diamond_ore:
+    type: mine
+    reward: 2
+    others:
+      - deepslate_*
+  Redstone_ore:
+    type: mine
+    reward: 0.5
+    others:
+      - deepslate_*
+  lapis_ore:
+    type: mine
+    reward: 0.5
+    others:
+      - deepslate_*
+  coal_ore:
+    type: mine
+    reward: 0.2
+    others:
+      - deepslate_*
+  emerald_ore:
+    type: mine
+    reward: 2
+    others:
+      - deepslate_*
+  stone:
+    type: mine
+    reward: 0.015
+    others:
+      - deepslate
+  nether_quartz_ore:
+    type: mine
+    reward: 0.1
+  copper_ore:
+    type: mine
+    reward: 0.5
+    others:
+      - deepslate_*
+  iron_ore:
+    type: mine
+    reward: 0.6
+    others:
+      - deepslate_*
+  gold_ore:
+    type: mine
+    reward: 0.7
+    others:
+      - deepslate_*
+  netherite_scrap:
+    type: smelt
+    reward: 9
+  carrots:
+    type: farm
+    reward: 0.07
+  potatoes:
+    type: farm
+    reward: 0.07
+  wheat:
+    type: farm
+    reward: 0.07
+  melon:
+    type: farm
+    reward: 0.06
+  beetroots:
+    type: farm
+    reward: 0.07
+challenges:
+  #entitys
+  Zombie:
+    type: KillMob
+    targetEntity: zombie
+    unitPrice: 3
+    averagePoints: 100
+    pointsMaxDeviation: 4
+    time: 5400
+  Skeleton:
+    type: KillMob
+    targetEntity: skeleton
+    unitPrice: 3
+    averagePoints: 100
+    pointsMaxDeviation: 4
+    time: 5400
+  Brutes:
+    type: KillMob
+    targetEntity: piglin_brute
+    unitPrice: 6
+    averagePoints: 10
+    pointsMaxDeviation: 4
+    time: 5400
+  Ghast:
+    type: KillMob
+    targetEntity: ghast
+    unitPrice: 5
+    averagePoints: 10
+    pointsMaxDeviation: 4
+    time: 5400
+  Enderman:
+    type: KillMob
+    targetEntity: enderman
+    unitPrice: 5
+    averagePoints: 30
+    pointsMaxDeviation: 4
+    time: 5400
+  #ores
+  Diamond:
+    type: MineOre
+    targetMaterial: Diamond_ore
+    others: [deepslate_diamond_ore]
+    unitPrice: 5
+    averagePoints: 50
+    pointsMaxDeviation: 20
+    time: 5400
+  Gold:
+    type: MineOre
+    targetMaterial: gold_ore
+    others: [ deepslate_gold_ore ]
+    unitPrice: 4
+    averagePoints: 50
+    pointsMaxDeviation: 20
+    time: 5400
+  Emerald:
+    type: MineOre
+    targetMaterial: emerald_ore
+    others: [ deepslate_emerald_ore ]
+    unitPrice: 10
+    averagePoints: 50
+    pointsMaxDeviation: 20
+    time: 5400
+  Copper:
+    type: MineOre
+    targetMaterial: copper_ore
+    others: [ deepslate_copper_ore ]
+    unitPrice: 2
+    averagePoints: 50
+    pointsMaxDeviation: 20
+    time: 5400

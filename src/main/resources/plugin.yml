@@ -1,0 +1,16 @@
+version: 1
+main: io.github.spikey84.spikeyeco2.SpikeyEco
+name: SpikeyEco
+api-version: 1.13
+depend: [Vault]
+commands:
+  multiplier:
+    usage: /multiplier
+  multiplieradd:
+    usage: /multipliers
+  multiplieradduuid:
+    usage: /multipliers
+  challenge:
+    usage: /challenge
+  challengeinfo:
+    usage: /challengeinfo
