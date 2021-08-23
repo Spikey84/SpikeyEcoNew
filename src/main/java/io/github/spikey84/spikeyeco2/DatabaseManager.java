@@ -1,7 +1,11 @@
 package io.github.spikey84.spikeyeco2;
 
 import io.github.spikey84.spikeyeco2.utils.ChatUtils;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,22 +14,21 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class DatabaseManager {
+    private static File databaseFile;
+
     public static Connection getConnection() {
-        Connection c = null;
+        Connection connection = null;
         try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://54.37.245.155:3306/s6896_eco", "u6896_t8SL1kYSV3", "ta77+^mjz!kKJxUCXVzUjZzM");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + databaseFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return c;
+        return connection;
     }
 
     public static void createMultiplierTable(Connection connection) {
         Statement statement = null;
         try {
-            Class.forName("org.postgresql.Driver");
-
             statement = connection.createStatement();
 
             String query = """
@@ -57,6 +60,25 @@ public class DatabaseManager {
             connection.close();
 
             ChatUtils.positiveConsole("Database Loaded.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void initDatabase(Plugin plugin) {
+        File databaseFolder = new File(plugin.getDataFolder(), "eco.db");
+        if (!databaseFolder.exists()) {
+            try {
+                databaseFolder.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        databaseFile = databaseFolder;
+
+        try (Connection connection = getConnection()) {
+            createMultiplierTable(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }

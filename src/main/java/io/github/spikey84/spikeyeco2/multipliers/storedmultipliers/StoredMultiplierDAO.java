@@ -17,7 +17,7 @@ public class StoredMultiplierDAO {
         List<Multiplier> multipliers = Lists.newArrayList();
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
             connection.setAutoCommit(false);
 
             String query = "SELECT uuid, timeleft, mult, id FROM stored_multipliers;";
@@ -42,7 +42,7 @@ public class StoredMultiplierDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             connection.setAutoCommit(false);
 
             String query = """
@@ -78,7 +78,7 @@ public class StoredMultiplierDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             connection.setAutoCommit(false);
 
             String query = """

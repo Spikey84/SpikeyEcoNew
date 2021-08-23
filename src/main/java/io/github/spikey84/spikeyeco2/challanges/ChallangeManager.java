@@ -2,6 +2,8 @@ package io.github.spikey84.spikeyeco2.challanges;
 
 import com.google.common.collect.Lists;
 import io.github.spikey84.spikeyeco2.EcoManager;
+import io.github.spikey84.spikeyeco2.challanges.implementation.KillMob;
+import io.github.spikey84.spikeyeco2.challanges.implementation.MineOre;
 import io.github.spikey84.spikeyeco2.utils.ChatUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
@@ -50,6 +52,10 @@ public class ChallangeManager {
         timeStr = DurationFormatUtils.formatDuration(time*1000,"H:mm:ss", true);
         //Adds the challenge types from the config file
         //iterates over all config types
+
+        Bukkit.getPluginManager().registerEvents(new KillMob(), plugin);
+        Bukkit.getPluginManager().registerEvents(new MineOre(), plugin);
+
         for (String key : config.getConfigurationSection("challenges").getKeys(false)) {
             ConfigurationSection challenge = config.getConfigurationSection("challenges." + key);//gets the block for the specific challenge
             challengeTypes.add(new ChallengeType(challenge.getString("type"), key, challenge.getInt("unitPrice"), challenge.getInt("averagePoints"), challenge.getInt("pointsMaxDeviation"), challenge.getLong("time"))); //adds the new type based off the config using the constructor
@@ -94,7 +100,6 @@ public class ChallangeManager {
         challengeProgress = new HashMap<UUID, Integer>();//clears progress for all players
         time = challengeType.getTime();
         timeStr = DurationFormatUtils.formatDuration(time*1000,"H:mm:ss", true);
-        Bukkit.getPluginManager().registerEvents(currentChallenge.getChallengeClass(), plugin);
         ChatUtils.challengeBroadcast(ChatColor.WHITE + "Starting Challenge " + ChatColor.BLUE + "" + challengeType.getName() + "" + ChatColor.WHITE + " with a reward of " + ChatColor.GREEN + "" + currentPrice + "" + ChatColor.WHITE + " coins! " + String.format("%s %s %s within %s to complete challenge.", currentChallenge.getChallengeClass().getAction(), requiredPoints, currentChallenge.getName(), timeStr));
     }
 

@@ -38,11 +38,9 @@ public class SpikeyEco extends JavaPlugin {
 
         this.plugin = this;
 
-        try (Connection connection = DatabaseManager.getConnection()) {
-            DatabaseManager.createMultiplierTable(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DatabaseManager.initDatabase(plugin);
+
+
 
         if (!setupEconomy()) {
             ChatUtils.alertConsole("Vault has not be loaded");

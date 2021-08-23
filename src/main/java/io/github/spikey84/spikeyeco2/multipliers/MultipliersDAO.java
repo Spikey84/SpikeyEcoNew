@@ -13,7 +13,7 @@ public class MultipliersDAO {
         List<Multiplier> multipliers = Lists.newArrayList();
 
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             connection.setAutoCommit(false);
 
             String query = "SELECT uuid, timeleft, mult FROM active_multipliers;";
@@ -36,13 +36,13 @@ public class MultipliersDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             connection.setAutoCommit(false);
 
             String query = """
                     INSERT INTO active_multipliers (uuid, mult, timeleft)\
                     VALUES\
-                    (?, ?, ?) ON DUPLICATE KEY UPDATE \
+                    (?, ?, ?) ON CONFLICT (uuid) DO UPDATE SET \
                     uuid=?, mult=?, timeleft=?;
                     """;
             statement = connection.prepareStatement(query);
@@ -67,7 +67,7 @@ public class MultipliersDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
             connection.setAutoCommit(false);
 
             String query = """
