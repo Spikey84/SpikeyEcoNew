@@ -13,7 +13,7 @@ public class DatabaseManager {
     public static Connection getConnection() {
         Connection c = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:mysql://54.37.245.155:3306/s6896_eco", "u6896_t8SL1kYSV3", "ta77+^mjz!kKJxUCXVzUjZzM");
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,7 +24,7 @@ public class DatabaseManager {
     public static void createMultiplierTable(Connection connection) {
         Statement statement = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
 
             statement = connection.createStatement();
 

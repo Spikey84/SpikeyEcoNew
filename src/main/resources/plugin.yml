@@ -1,4 +1,4 @@
-version: 1
+version: 2.1
 main: io.github.spikey84.spikeyeco2.SpikeyEco
 name: SpikeyEco
 api-version: 1.13
