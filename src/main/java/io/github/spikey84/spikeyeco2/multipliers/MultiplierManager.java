@@ -3,6 +3,7 @@ package io.github.spikey84.spikeyeco2.multipliers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.github.spikey84.spikeyeco2.DatabaseManager;
+import io.github.spikey84.spikeyeco2.utils.SchedulerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -23,28 +24,22 @@ public class MultiplierManager {
         activeMultipliers = Lists.newArrayList();
         this.plugin = plugin;
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try(Connection connection = DatabaseManager.getConnection()) {
-                activeMultipliers = MultipliersDAO.getActiveMultipliers(connection);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                activeMultipliers = Lists.newArrayList();
-            }
-        });
+        SchedulerUtils.runDatabase((connection -> {
+            activeMultipliers = MultipliersDAO.getActiveMultipliers(connection);
+        }));
+
+
     }
 
     public void addMultiplier(Multiplier multiplier) {
         activeMultipliers.removeIf(mult -> mult.getUuid().equals(multiplier.getUuid()));
 
         activeMultipliers.add(multiplier);
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                Connection connection = DatabaseManager.getConnection();
-                MultipliersDAO.addMultiplier(connection, multiplier);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        SchedulerUtils.runDatabaseAsync((connection -> {
+            MultipliersDAO.addMultiplier(connection, multiplier);
+        }));
+
+
     }
 
     public void checkMultiplier() {
@@ -56,14 +51,9 @@ public class MultiplierManager {
 
                 if (toRemove == null) toRemove = Lists.newArrayList();
                 toRemove.add(multiplier);
-                Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                    try {
-                        Connection connection = DatabaseManager.getConnection();
-                        MultipliersDAO.removeMultiplier(connection, multiplier.getUuid());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+                SchedulerUtils.runDatabaseAsync((connection -> {
+                    MultipliersDAO.removeMultiplier(connection, multiplier.getUuid());
+                }));
             }
             multiplier.setTime(multiplier.getTime()-1);
         }

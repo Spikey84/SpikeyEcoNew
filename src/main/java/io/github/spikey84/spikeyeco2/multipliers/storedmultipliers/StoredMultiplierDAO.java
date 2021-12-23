@@ -17,8 +17,7 @@ public class StoredMultiplierDAO {
         List<Multiplier> multipliers = Lists.newArrayList();
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection.setAutoCommit(false);
+            Class.forName("org.sqlite.JDBC");
 
             String query = "SELECT uuid, timeleft, mult, id FROM stored_multipliers;";
 
@@ -42,8 +41,7 @@ public class StoredMultiplierDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection.setAutoCommit(false);
+            Class.forName("org.sqlite.JDBC");
 
             String query = """
                     INSERT INTO stored_multipliers (uuid, mult, timeleft)\
@@ -68,7 +66,7 @@ public class StoredMultiplierDAO {
             resultSet.next();
             multiplier.setID(resultSet.getInt(1));
 
-            connection.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,19 +76,16 @@ public class StoredMultiplierDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection.setAutoCommit(false);
+            Class.forName("org.sqlite.JDBC");
 
             String query = """
-                    DELETE FROM stored_multipliers WHERE id = ?;
+                    DELETE FROM stored_multipliers WHERE id=?;
                     """;
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             statement.execute();
 
             statement.close();
-            connection.commit();
-            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

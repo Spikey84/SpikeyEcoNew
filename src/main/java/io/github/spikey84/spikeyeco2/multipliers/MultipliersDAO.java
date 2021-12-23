@@ -13,8 +13,7 @@ public class MultipliersDAO {
         List<Multiplier> multipliers = Lists.newArrayList();
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection.setAutoCommit(false);
+            Class.forName("org.sqlite.JDBC");
 
             String query = "SELECT uuid, timeleft, mult FROM active_multipliers;";
 
@@ -35,29 +34,25 @@ public class MultipliersDAO {
     public static void addMultiplier(Connection connection, Multiplier multiplier) {
         PreparedStatement statement = null;
 
+        removeMultiplier(connection, multiplier.getUuid());
+
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection.setAutoCommit(false);
+            Class.forName("org.sqlite.JDBC");
 
             String query = """
                     INSERT INTO active_multipliers (uuid, mult, timeleft)\
                     VALUES\
-                    (?, ?, ?) ON DUPLICATE KEY UPDATE \
-                    uuid=?, mult=?, timeleft=?;
+                    (?, ?, ?);\
                     """;
             statement = connection.prepareStatement(query);
 
             statement.setString(1, Utils.strip(multiplier.getUuid()));
             statement.setDouble(2, multiplier.getMultiplier());
             statement.setLong(3, multiplier.getTime());
-            statement.setString(4, Utils.strip(multiplier.getUuid()));
-            statement.setDouble(5, multiplier.getMultiplier());
-            statement.setLong(6, multiplier.getTime());
 
             statement.execute();
 
             statement.close();
-            connection.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,8 +62,7 @@ public class MultipliersDAO {
         PreparedStatement statement = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection.setAutoCommit(false);
+            Class.forName("org.sqlite.JDBC");
 
             String query = """
                     DELETE FROM active_multipliers WHERE uuid = ?;
@@ -78,8 +72,6 @@ public class MultipliersDAO {
             statement.execute();
 
             statement.close();
-            connection.commit();
-            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,6 +11,7 @@ import io.github.spikey84.spikeyeco2.multipliers.commands.MultiplierOpenInventor
 import io.github.spikey84.spikeyeco2.multipliers.storedmultipliers.StoredMultiplierManager;
 import io.github.spikey84.spikeyeco2.targets.TargetType;
 import io.github.spikey84.spikeyeco2.utils.ChatUtils;
+import io.github.spikey84.spikeyeco2.utils.SchedulerUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -35,14 +36,12 @@ public class SpikeyEco extends JavaPlugin {
 
     public void onEnable() {
         this.saveDefaultConfig();
+        SchedulerUtils.setPlugin(this);
 
         this.plugin = this;
 
-        try (Connection connection = DatabaseManager.getConnection()) {
-            DatabaseManager.createMultiplierTable(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DatabaseManager.initDatabase(this);
+        SchedulerUtils.runDatabase((DatabaseManager::createMultiplierTable));
 
         if (!setupEconomy()) {
             ChatUtils.alertConsole("Vault has not be loaded");
@@ -68,9 +67,9 @@ public class SpikeyEco extends JavaPlugin {
         }
         ChatUtils.positiveConsole("Targets loaded.");
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+        SchedulerUtils.runRepeating(() -> {
             multiplierManager.checkMultiplier();
-        }, 1,20);
+        }, 20);
 
         getCommand("multiplieradd").setExecutor(new MultiplierAddCommand(multiplierManager, storedMultiplierManager));
         getCommand("multiplier").setExecutor(new MultiplierOpenInventoryCommand(storedMultiplierManager, plugin, multiplierManager));
